@@ -30,11 +30,13 @@ class Page {
     }
 
     constructor() {
-        document.documentElement.style.setProperty('--tile-width', this.cssProperty.tileWidth + 'px');
-        document.documentElement.style.setProperty('--transition-duration', this.cssProperty.transitionDuration + 'ms');
-
         // 为 #app 绑定布局模式
         document.getElementById('app').setAttribute('layout', STORE.layoutMode);
+        // 如果是纵向布局，则修改 tileWidth 尺寸
+        if (STORE.layoutMode === 'vertical') this.cssProperty.tileWidth = CONFIG.css.tileWidth = window.innerWidth / 22.5;
+
+        document.documentElement.style.setProperty('--tile-width', this.cssProperty.tileWidth + 'px');
+        document.documentElement.style.setProperty('--transition-duration', this.cssProperty.transitionDuration + 'ms');
 
         this.initSupplyArea();
         this.initPlayerArea();
