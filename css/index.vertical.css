@@ -1,0 +1,10 @@
+#app[layout='vertical'] {
+    flex-direction: column;
+    align-items: center;
+}
+
+#app[layout='vertical'] #console {
+    height: auto;
+    width: calc(var(--console-unit-width) * 2);
+    align-content: start;
+}

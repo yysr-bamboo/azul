@@ -1,0 +1,22 @@
+.-xe-alert {
+    position: fixed;
+    left: calc(50% - 140px);
+    width: 280px;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: .5s all;
+    z-index: 9999;
+}
+
+.-xe-alert.-xe-wrong {
+    background-color: #fee;
+    border: #fcc solid 1px;
+    color: #f33;
+}
+
+.-xe-alert.-xe-success {
+    background-color: #e5faef;
+    border: #6d6 solid 1px;
+    color: #222;
+}

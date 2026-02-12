@@ -1,0 +1,72 @@
+button.no-drop {
+    cursor: no-drop;
+    background: #ccc;
+}
+
+button.no-drop:hover {
+    background: #ccc;
+}
+
+input.wrong {
+    border-color: #f00;
+    color: #e33;
+}
+
+
+/* 彩色按钮 */
+
+.blue-btn,
+.green-btn,
+.red-btn,
+.yellow-btn {
+    transition: all .2s;
+}
+
+.blue-btn {
+    background: #5fb5fa;
+    color: white;
+}
+
+.blue-btn:hover {
+    background: #7cf;
+}
+
+.green-btn {
+    background: #5c0;
+    color: #fff;
+}
+
+.red-btn {
+    background: #f55;
+    color: #fee;
+}
+
+.yellow-btn {
+    background: #fe0;
+    color: #a60;
+}
+
+.green-btn:hover,
+.red-btn:hover,
+.yellow-btn:hover {
+    filter: brightness(1.1);
+}
+
+.del-btn {
+    background: #fa7a6f;
+    padding: 6px 6px;
+    border: none;
+    transition: .15s all;
+}
+
+.del-btn:hover {
+    background: #f97;
+}
+
+.del-btn::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 4px;
+    background-color: #fff;
+}

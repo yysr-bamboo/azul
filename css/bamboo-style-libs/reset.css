@@ -1,0 +1,101 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+
+/* 重置表格和列表的默认样式 */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: #dee2e6 solid 1px;
+    padding: 8px;
+}
+
+table tr:nth-child(odd),
+ul li:nth-child(even) {
+    background: #f5f7fa;
+}
+
+table tr:nth-child(even),
+ul li:nth-child(odd) {
+    background: #fff;
+}
+
+table th {
+    text-align: left;
+    background: #888;
+    border-color: #888;
+    color: #fff;
+}
+
+li {
+    list-style: none;
+}
+
+
+/* 重置输入框、按钮和超链接的默认样式 */
+
+input {
+    padding: .1em .3em;
+    border: #ddd solid 1px;
+}
+
+button {
+    cursor: pointer;
+}
+
+input[disabled],
+button[disabled] {
+    color: #b0b0b0;
+    cursor: no-drop;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+
+/*
+ * 输入框的 placeholder 字色
+ * WebKit browsers
+ * Mozilla Firefox 4 to 18
+ * Mozilla Firefox 19+
+ * Internet Explorer 10+
+ */
+
+input::-webkit-input-placeholder,
+input:-moz-placeholder,
+input::-moz-placeholder,
+input:-ms-input-placeholder {
+    color: #b0b0b0;
+}
+
+
+/* 统一滚动条 */
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #bbb;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花砖沙盘</title>
+    <!-- 测试编码： 1V8LT8N9MVMR   5V8LT8N9MVMRoGjg -->
+    <link rel="stylesheet" href="./css/bamboo-style.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/index.vertical.css" />
+
+    <script src="./js/elements/positive-integer-input.js"></script>
+    <script src="./js/ui-utils.js"></script>
+
+    <script src="./js/index/define/tile.d.js"></script>
+    <script src="./js/index/define/tile-slot.d.js"></script>
+    <script src="./js/index/define/opreation-record.d.js"></script>
+
+    <script src="./js/index/checker.js"></script>
+    <script src="./js/index/canvas.js"></script>
+    <script src="./js/index/tile-event.js"></script>
+    <script src="./js/index/operator.js"></script>
+    <script src="./js/index/game.js"></script>
+    <script src="./js/index/encoder.js"></script>
+
+    <script src="./js/index.config.js"></script>
+    <script src="./js/index.page.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 主面板，左右划分：供应区、玩家面板 -->
+        <div id="main-area" class="select-none">
+            <!-- 供应区， 上方是工厂，下方是堆积区 -->
+            <div id="supply-area">
+                <div id="selected-tiles-area"></div>
+                <div id="factories"></div>
+                <div id="tile-stack-area">
+                    <div id="stack-cursor"></div>
+                </div>
+            </div>
+            <div id="playerboard-area"></div>
+        </div>
+        <!-- 工作台 -->
+        <aside id="console">
+            <!-- 模式切换开关 -->
+            <div id="mode-switch-panel" class="select-none">
+                <div id="mode-switch">
+                    <div id="mode-switch-slider"></div>
+                    <div class="label">编辑模式</div>
+                    <div class="label">推演模式</div>
+                </div>
+            </div>
+            <div id="player-data-editors"></div>
+            <!-- 剩余瓷砖数 -->
+            <div id="tile-supply-editors"></div>
+            <div id="game-encoder">
+                <div class="input-panel"><input type="text"></div>
+                <div class="button-panel"></div>
+            </div>
+        </aside>
+    </div>
+</body>
+
+<script>
+    // 根据页面比例选择摆法模式
+    STORE.layoutMode = window.innerHeight / window.innerWidth > 1.6 ? 'vertical' : 'horizontal';
+    // 初始化页面
+    APP.page = new Page();
+    // 初始切换为编辑模式
+    APP.game.changeMode('editing');
+</script>
+
+</html>

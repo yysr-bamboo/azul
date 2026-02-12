@@ -1,0 +1,551 @@
+:root {
+    /* 保存由外部引入的数据，--tile-width 在index.js中进行初始化 */
+    --tile-width: 0;
+    --tile0-image: url(../images/blue.svg);
+    --tile1-image: url(../images/yellow.svg);
+    --tile2-image: url(../images/red.svg);
+    --tile3-image: url(../images/black.svg);
+    --tile4-image: url(../images/cyan.svg);
+    --first-tile-image: url(../images/first-player.svg);
+    /* 默认变量 */
+    --defult-font-size: calc(var(--tile-width) * 0.45);
+    --defult-margin: calc(var(--tile-width) / 2);
+    --default-background: #333;
+    --shadow-offset: calc(var(--tile-width) / 8);
+    /* 计算工厂相关尺寸 */
+    --factory-width: calc(3.5 * var(--tile-width));
+    --factory-margin: var(--defult-margin);
+    --factories-height: calc(var(--factory-width) * 5 + var(--factory-margin) * 10);
+    --factories-width: calc((var(--factory-width) + var(--factory-margin)) * 2);
+    --factories-width: calc(var(--factory-width) * 2 + var(--factory-margin) * 4);
+    /* 计算堆及输入框相关尺寸 */
+    --stack-width: calc(var(--tile-width) * 2.4);
+    --stack-height: calc(var(--tile-width) * 3);
+    --stack-input-width: calc(var(--tile-width) * 1.4);
+    --stack-input-height: calc(var(--tile-width) * .6);
+    /* 玩家面板 */
+    --playerboard-image: url(../images/playerboard.webp);
+    --playerboard-margin: var(--defult-margin);
+    --playerboard-width: calc(var(--tile-width) * 12);
+    --playerboard-height: calc(var(--tile-width) * 7.86);
+    /* 控制台 */
+    --console-unit-width: calc(var(--tile-width) * 8);
+    --console-unit-height: calc(var(--tile-width) * 2);
+    /* 其他变量 */
+    --transition-duration: 200ms;
+    --input-border-radius: calc(var(--tile-width) * .1);
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background: var(--default-background);
+    /* background-image: linear-gradient(135deg, #445, #332); */
+}
+
+#app {
+    display: flex;
+    justify-self: center;
+    margin: 0 auto;
+}
+
+#main-area {
+    display: flex;
+    position: relative;
+}
+
+input {
+    width: var(--stack-input-width);
+    height: var(--stack-input-height);
+    font-size: var(--defult-font-size);
+    border-radius: var(--input-border-radius);
+}
+
+input[disabled=true] {
+    background: #aaa;
+    color: #222;
+}
+
+
+/* ================ 
+ * 瓷砖通用属性 
+ * ================ */
+
+.tile {
+    height: var(--tile-width);
+    width: var(--tile-width);
+    background-size: cover;
+    border-radius: 12%;
+    /* box-shadow: calc(var(--tile-width) / 16) calc(var(--tile-width) / 16) calc(var(--tile-width) / 12) rgba(0, 0, 0, 0.7); */
+    box-shadow: 0 0 calc(var(--tile-width) / 16) calc(var(--tile-width) / 24);
+    /* 0.2秒平滑动画 */
+    transition: all var(--transition-duration) ease-in-out;
+    transform: translate(0, 0) rotate(0);
+}
+
+.tile.no-shadow {
+    box-shadow: none;
+}
+
+.tile-slot {
+    position: absolute;
+    height: var(--tile-width);
+    width: var(--tile-width);
+}
+
+.tile.tile0 {
+    background-image: var(--tile0-image);
+}
+
+.tile.tile1 {
+    background-image: var(--tile1-image);
+}
+
+.tile.tile2 {
+    background-image: var(--tile2-image);
+}
+
+.tile.tile3 {
+    background-image: var(--tile3-image);
+}
+
+.tile.tile4 {
+    background-image: var(--tile4-image);
+}
+
+.tile.first-tile {
+    position: absolute;
+    background-image: var(--first-tile-image);
+    z-index: 99;
+}
+
+
+/* ================ 
+ * 主供应区 
+ * ================ */
+
+#supply-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* ================ 
+ * 工厂面板 
+ * ================ */
+
+#factories {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    /* height: var(--factories-height); */
+    width: var(--factories-width);
+}
+
+#factories .factory {
+    position: relative;
+    height: var(--factory-width);
+    width: var(--factory-width);
+    margin: var(--factory-margin);
+    background: url(../images/factory.png);
+    background-size: cover;
+}
+
+
+/* ================================ 
+ * 存放已选中瓷砖的区域 
+ * ================================ */
+
+#selected-tiles-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--defult-margin);
+    height: var(--stack-height);
+    width: 100%;
+    background-image: linear-gradient(135deg, #eef, #bbc);
+    border-radius: var(--defult-margin);
+    box-shadow: inset var(--shadow-offset) var(--shadow-offset) 4px rgba(0, 0, 0, .6);
+}
+
+
+/* ================ 
+ * 堆叠面板 
+ * ================ */
+
+#tile-stack-area {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(var(--stack-width) * 3);
+}
+
+#tile-stack-area .stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 两端到顶 */
+    justify-content: space-between;
+    height: var(--stack-height);
+    width: var(--stack-width);
+    /* 通过上padding压住瓷砖 */
+    /* padding-top: calc(var(--tile-width) * 1); */
+}
+
+#tile-stack-area .stack .tile-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: var(--stack-width);
+    height: var(--stack-width);
+}
+
+#tile-stack-area .stack .tile-area .tile-slot {
+    left: calc(var(--tile-width) * .7);
+    top: calc(var(--tile-width) * .7);
+}
+
+
+/* 根据选中的瓷砖，移动光标 */
+
+#tile-stack-area #stack-cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: scale(0);
+    width: calc(var(--stack-width) *.6);
+    height: calc(var(--stack-width) *.6);
+    margin: calc(var(--stack-width) *.2);
+    z-index: -1;
+    border-radius: 12%;
+    box-shadow: inset 0 0 calc(var(--tile-width) / 4) #fff;
+    transition: all var(--transition-duration) ease-in-out;
+}
+
+#tile-stack-area.non-animate #stack-cursor {
+    transition: none;
+}
+
+#tile-stack-area.has-selected-tile #stack-cursor {
+    transform: scale(1);
+}
+
+#tile-stack-area[cursor='tile0'] #stack-cursor {
+    left: 0;
+    top: 0;
+}
+
+#tile-stack-area[cursor='tile1'] #stack-cursor {
+    left: var(--stack-width);
+    top: 0;
+}
+
+#tile-stack-area[cursor='tile2'] #stack-cursor {
+    left: calc(var(--stack-width) * 2);
+    top: 0;
+}
+
+#tile-stack-area[cursor='tile3'] #stack-cursor {
+    left: 0;
+    top: var(--stack-height);
+}
+
+#tile-stack-area[cursor='tile4'] #stack-cursor {
+    left: var(--stack-width);
+    top: var(--stack-height);
+}
+
+#tile-stack-area[cursor='first-tile'] #stack-cursor {
+    left: calc(var(--stack-width) * 2);
+    top: var(--stack-height);
+}
+
+#tile-stack-area .stack .first-tile-slot {
+    height: var(--tile-width);
+    width: var(--tile-width);
+    background-size: cover;
+    border-radius: 12%;
+    /* 粗虚线框 */
+    border: calc(var(--tile-width) * .1) dashed rgba(255, 255, 255, .8);
+}
+
+
+/* 选中瓷砖后，向上偏移 */
+
+#tile-stack-area .stack .tile.selected {
+    transform: translateY(calc(var(--tile-width) * -.4));
+}
+
+
+/* ================ 
+ * 玩家面板 
+ * ================ */
+
+#playerboard-area .playerboard {
+    position: relative;
+    margin: var(--playerboard-margin);
+    width: var(--playerboard-width);
+    height: var(--playerboard-height);
+    background: var(--playerboard-image);
+    background-size: cover;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+
+/* 行蒙版 */
+
+#playerboard-area .playerboard .line-mask {
+    display: flex;
+    position: absolute;
+    right: calc(var(--tile-width) * 6.27);
+    height: calc(var(--tile-width) * 1.1);
+    cursor: pointer;
+}
+
+#playerboard-area .playerboard .line-mask.line0 {
+    top: calc(var(--tile-width) * .22);
+    width: calc(var(--tile-width) * 1.1);
+}
+
+#playerboard-area .playerboard .line-mask.line1 {
+    top: calc(var(--tile-width) * 1.32);
+    width: calc(var(--tile-width) * 2.2);
+}
+
+#playerboard-area .playerboard .line-mask.line2 {
+    top: calc(var(--tile-width) * 2.42);
+    width: calc(var(--tile-width) * 3.3);
+}
+
+#playerboard-area .playerboard .line-mask.line3 {
+    top: calc(var(--tile-width) * 3.52);
+    width: calc(var(--tile-width) * 4.4);
+}
+
+#playerboard-area .playerboard .line-mask.line4 {
+    top: calc(var(--tile-width) * 4.62);
+    width: calc(var(--tile-width) * 5.5);
+}
+
+#playerboard-area .playerboard .line-mask .cell {
+    width: calc(var(--tile-width) * 1.1);
+    height: 100%;
+}
+
+
+/* 墙蒙版 */
+
+#playerboard-area .playerboard .wall-mask {
+    position: absolute;
+    top: calc(var(--tile-width) * .22);
+    right: calc(var(--tile-width) * .24);
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(var(--tile-width) * 5.5);
+    height: calc(var(--tile-width) * 5.5);
+    background: rgba(250, 250, 250, 0.7);
+}
+
+
+/* 地板蒙版 */
+
+#playerboard-area .playerboard .floor-mask {
+    position: absolute;
+    top: calc(var(--tile-width) * 6.6);
+    left: calc(var(--tile-width) * .05);
+    display: flex;
+    width: calc(var(--tile-width) * 8.4);
+    height: calc(var(--tile-width) * 1.1);
+}
+
+#playerboard-area .playerboard .floor-mask .cell {
+    width: calc(var(--tile-width) * 1.2);
+    height: 100%;
+}
+
+
+/* ================ 
+ * 控制台 
+ * ================ */
+
+#console {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    height: calc(var(--playerboard-height) + var(--tile-width));
+    width: var(--console-unit-width);
+}
+
+#mode-switch-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: var(--console-unit-height);
+}
+
+#mode-switch {
+    display: flex;
+    position: relative;
+    width: 95%;
+    height: var(--tile-width);
+    border-radius: calc(var(--tile-width) / 2);
+    background: #f5f5f5;
+    cursor: pointer;
+    /* box-shadow: inset calc(var(--tile-width) / 8) calc(var(--tile-width) / 8) calc(var(--tile-width) / 8) rgba(0, 0, 0, .7); */
+}
+
+#mode-switch-slider {
+    position: absolute;
+    display: flex;
+    margin: calc(var(--tile-width) / 20) 2%;
+    margin-left: 52%;
+    width: 46%;
+    height: calc(var(--tile-width) / 20 * 18);
+    text-align: center;
+    line-height: calc(var(--tile-width) / 20 * 18);
+    border-radius: calc(var(--tile-width) / 2);
+    /* background: #2be; */
+    background: #444;
+    font-size: var(--defult-font-size);
+    /* transition: all var(--transition-duration) ease-in-out; */
+}
+
+#mode-switch[mode='deduce'] #mode-switch-slider {
+    margin-left: 2%;
+}
+
+@keyframes mode-switch-sliding {
+    0% {
+        width: 46%;
+        height: calc(var(--tile-width) / 8 * 6);
+        margin-top: calc(var(--tile-width) / 8);
+        margin-bottom: calc(var(--tile-width) / 8);
+    }
+    50% {
+        width: 56%;
+    }
+    100% {
+        width: 46%;
+        height: calc(var(--tile-width) / 20 * 18);
+        margin-top: calc(var(--tile-width) / 20);
+        margin-bottom: calc(var(--tile-width) / 20);
+    }
+}
+
+
+/* Safari 与 Chrome */
+
+@-webkit-keyframes mode-switch-sliding {
+    0% {
+        width: 46%;
+        height: calc(var(--tile-width) / 8 * 6);
+        margin-top: calc(var(--tile-width) / 8);
+        margin-bottom: calc(var(--tile-width) / 8);
+    }
+    50% {
+        width: 56%;
+    }
+    100% {
+        width: 46%;
+        height: calc(var(--tile-width) / 20 * 18);
+        margin-top: calc(var(--tile-width) / 20);
+        margin-bottom: calc(var(--tile-width) / 20);
+    }
+}
+
+#mode-switch .label {
+    text-align: center;
+    line-height: var(--tile-width);
+    width: 50%;
+    font-size: var(--defult-font-size);
+    color: var(--default-background);
+    font-weight: 700;
+}
+
+
+/* 剩余瓷砖数控制台 */
+
+#tile-supply-editors {
+    display: flex;
+    justify-content: space-around;
+    width: var(--console-unit-width);
+    height: var(--console-unit-height);
+}
+
+#tile-supply-editors .tile-supply-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#tile-supply-editors .tile-supply-editor label {
+    display: block;
+}
+
+
+/* 分数与行动控制器 */
+
+#player-data-editors {
+    display: flex;
+    justify-content: space-around;
+    width: var(--console-unit-width);
+    height: var(--console-unit-height);
+}
+
+#player-data-editors .player-data-editor {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+}
+
+#player-data-editors .player-data-editor input {
+    width: calc(var(--stack-input-width) * 1.2);
+}
+
+
+/* 游戏数据编码器 */
+
+#game-encoder {
+    display: flex;
+    flex-direction: column;
+    width: var(--console-unit-width);
+    height: var(--console-unit-height);
+    padding: 4px;
+}
+
+#game-encoder input {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--input-border-radius) var(--input-border-radius) 0 0;
+}
+
+#game-encoder .button-panel {
+    display: flex;
+    gap: 2px;
+    height: 100%;
+}
+
+#game-encoder .button-panel>div {
+    flex: 1;
+    margin: 4px 0;
+    background: #3ad;
+    text-align: center;
+    cursor: pointer;
+    color: #222;
+    font-size: var(--defult-font-size);
+    font-weight: 700;
+    user-select: none;
+}
+
+#game-encoder .button-panel>div[disabled=true] {
+    background: #aaa;
+    cursor: no-drop;
+}
+
+#game-encoder .button-panel>div[disabled=false]:hover {
+    background: #4be;
+}
