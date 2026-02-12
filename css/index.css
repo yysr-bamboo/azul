@@ -532,6 +532,7 @@ input[disabled=true] {
 #game-encoder .button-panel>div {
     flex: 1;
     height: calc(var(--console-unit-height) / 2 - 4px);
+    line-height: calc(var(--console-unit-height) / 2 - 4px);
     margin: 4px 0;
     background: #3ad;
     text-align: center;
